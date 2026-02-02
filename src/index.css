@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Permanent+Marker&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --paper-color: #f5f0e6;
+  --pencil-dark: #2c2c2c;
+  --pencil-medium: #4a4a4a;
+  --pencil-light: #7a7a7a;
+  --accent-color: #d44a2e;
+  --success-color: #2e7d32;
+  --sketch-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+}
+
+body {
+  font-family: 'Caveat', cursive;
+  background-color: #e8e0d0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  margin: 0;
+  display: block;
+}
+
+#root {
+  margin: 0;
+  padding: 0;
+  max-width: none;
+  text-align: left;
+}
