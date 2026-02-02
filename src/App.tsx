@@ -26,24 +26,28 @@ export default function App() {
   );
   const [hasWon, setHasWon] = useState(false);
   const [score, setScore] = useState(0);
+  const [guessesUsed, setGuessesUsed] = useState(0);
 
   const handleStart = useCallback(() => {
     const caricature = getRandomCaricature();
     setCurrentCaricature(caricature);
     setHasWon(false);
     setScore(0);
+    setGuessesUsed(0);
     setScreen("game");
   }, []);
 
-  const handleWin = useCallback((timeRemaining: number) => {
+  const handleWin = useCallback((timeRemaining: number, guesses: number) => {
     setHasWon(true);
     setScore(calculateScore(timeRemaining));
+    setGuessesUsed(guesses);
     setScreen("result");
   }, []);
 
-  const handleLose = useCallback(() => {
+  const handleLose = useCallback((guesses: number) => {
     setHasWon(false);
     setScore(0);
+    setGuessesUsed(guesses);
     setScreen("result");
   }, []);
 
@@ -75,6 +79,7 @@ export default function App() {
             caricature={currentCaricature}
             hasWon={hasWon}
             score={score}
+            guessesUsed={guessesUsed}
             onPlayAgain={handlePlayAgain}
           />
         )}

@@ -4,8 +4,8 @@ import { GAME_CONFIG } from "../config";
 
 interface GameScreenProps {
   caricature: Caricature;
-  onWin: (timeRemaining: number) => void;
-  onLose: () => void;
+  onWin: (timeRemaining: number, guessesUsed: number) => void;
+  onLose: (guessesUsed: number) => void;
 }
 
 const WRONG_GUESS_MESSAGES = [
@@ -33,17 +33,19 @@ export function GameScreen({ caricature, onWin, onLose }: GameScreenProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const timerRef = useRef<number | null>(null);
   const gameEndedRef = useRef(false);
+  const guessesUsedRef = useRef(0);
 
   // Start timer and video
   useEffect(() => {
     gameEndedRef.current = false;
+    guessesUsedRef.current = 0;
 
     timerRef.current = window.setInterval(() => {
       setTimeRemaining((prev) => {
         if (prev <= 1) {
           if (!gameEndedRef.current) {
             gameEndedRef.current = true;
-            onLose();
+            onLose(guessesUsedRef.current);
           }
           return 0;
         }
@@ -108,13 +110,14 @@ export function GameScreen({ caricature, onWin, onLose }: GameScreenProps) {
 
     setGuessHistory((prev) => [...prev, guess]);
     setInputValue("");
+    guessesUsedRef.current += 1;
 
     if (checkAnswer(guess)) {
       gameEndedRef.current = true;
       if (timerRef.current) {
         clearInterval(timerRef.current);
       }
-      onWin(timeRemaining);
+      onWin(timeRemaining, guessesUsedRef.current);
     } else {
       const newGuessesRemaining = guessesRemaining - 1;
       setGuessesRemaining(newGuessesRemaining);
@@ -124,7 +127,7 @@ export function GameScreen({ caricature, onWin, onLose }: GameScreenProps) {
         if (timerRef.current) {
           clearInterval(timerRef.current);
         }
-        onLose();
+        onLose(guessesUsedRef.current);
       } else {
         const randomMessage =
           WRONG_GUESS_MESSAGES[

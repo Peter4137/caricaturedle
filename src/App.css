@@ -352,15 +352,62 @@ header {
   margin: 15px 0;
 }
 
-.result-score {
+.result-stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 20px 0;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.stat-label {
+  font-size: 1.2rem;
+  color: var(--pencil-medium);
+}
+
+.stat-value {
   font-family: 'Permanent Marker', cursive;
   font-size: 2rem;
-  color: var(--accent-color);
+  color: var(--pencil-dark);
+}
+
+.share-preview {
+  font-size: 1.8rem;
+  letter-spacing: 4px;
+  margin: 15px 0;
+  padding: 10px;
+  background: var(--paper-color);
+  border-radius: 4px;
+}
+
+.share-btn {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 1.3rem;
+  padding: 12px 30px;
+  background: var(--success-color);
+  border: 3px solid var(--pencil-dark);
+  color: white;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
   margin-top: 10px;
 }
 
-.result-score .points {
-  font-size: 3rem;
+.share-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.2);
+  background: #3d9140;
+}
+
+.share-btn:active {
+  transform: translateY(1px);
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
 }
 
 /* Footer */
