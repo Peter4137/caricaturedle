@@ -60,21 +60,28 @@ export function GameScreen({ caricature, onWin, onLose }: GameScreenProps) {
     };
   }, [onLose]);
 
-  // Set up video playback rate and ensure it starts at frame 0
+  // Set up video playback rate and ensure it starts at 2 seconds in
+  // (first 2 seconds show end state, actual drawing starts at 2s)
+  const VIDEO_START_TIME = 2;
+
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
+    let hasStartedPlaying = false;
+
     const handleMetadata = () => {
-      // Seek to the very beginning to show first frame
-      video.currentTime = 0;
-      const videoDuration = video.duration;
-      video.playbackRate = videoDuration / GAME_CONFIG.totalTime;
+      // Seek to 2 seconds in to skip the end-state frames
+      video.currentTime = VIDEO_START_TIME;
+      // Adjust playback rate for the remaining video duration
+      const effectiveDuration = video.duration - VIDEO_START_TIME;
+      video.playbackRate = effectiveDuration / GAME_CONFIG.totalTime;
     };
 
     const handleSeeked = () => {
-      // Only start playing after we've seeked to the beginning
-      if (video.currentTime === 0) {
+      // Only start playing after we've seeked to the start point
+      if (!hasStartedPlaying && video.currentTime >= VIDEO_START_TIME) {
+        hasStartedPlaying = true;
         video.play().catch((err) => {
           console.log("Video autoplay prevented:", err);
         });
@@ -169,7 +176,7 @@ export function GameScreen({ caricature, onWin, onLose }: GameScreenProps) {
         <div className="video-frame">
           <video
             ref={videoRef}
-            src={`${caricature.video}#t=0.001`}
+            src={`${caricature.video}#t=2`}
             muted
             playsInline
             preload="metadata"
