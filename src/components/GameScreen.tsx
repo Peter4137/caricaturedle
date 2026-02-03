@@ -60,21 +60,33 @@ export function GameScreen({ caricature, onWin, onLose }: GameScreenProps) {
     };
   }, [onLose]);
 
-  // Set up video playback rate
+  // Set up video playback rate and ensure it starts at frame 0
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
     const handleMetadata = () => {
+      // Seek to the very beginning to show first frame
+      video.currentTime = 0;
       const videoDuration = video.duration;
       video.playbackRate = videoDuration / GAME_CONFIG.totalTime;
-      video.play().catch((err) => {
-        console.log("Video autoplay prevented:", err);
-      });
+    };
+
+    const handleSeeked = () => {
+      // Only start playing after we've seeked to the beginning
+      if (video.currentTime === 0) {
+        video.play().catch((err) => {
+          console.log("Video autoplay prevented:", err);
+        });
+      }
     };
 
     video.addEventListener("loadedmetadata", handleMetadata);
-    return () => video.removeEventListener("loadedmetadata", handleMetadata);
+    video.addEventListener("seeked", handleSeeked);
+    return () => {
+      video.removeEventListener("loadedmetadata", handleMetadata);
+      video.removeEventListener("seeked", handleSeeked);
+    };
   }, [caricature.video]);
 
   const checkAnswer = useCallback(
@@ -155,7 +167,13 @@ export function GameScreen({ caricature, onWin, onLose }: GameScreenProps) {
 
       <div className="video-container">
         <div className="video-frame">
-          <video ref={videoRef} src={caricature.video} muted playsInline />
+          <video
+            ref={videoRef}
+            src={`${caricature.video}#t=0.001`}
+            muted
+            playsInline
+            preload="metadata"
+          />
         </div>
       </div>
 
