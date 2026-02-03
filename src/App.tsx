@@ -59,7 +59,7 @@ export default function App() {
     <div className="paper-bg">
       <div className="container">
         <header>
-          <h1 className="title">Charicaturedle</h1>
+          <h1 className="title">Caricaturedle</h1>
           <p className="subtitle">Guess the face before it's finished!</p>
         </header>
 

@@ -1,4 +1,4 @@
-# Charicaturedle
+# Caricaturedle
 
 A sketch-styled guessing game where players watch a caricature being drawn and try to guess who it is before time runs out!
 

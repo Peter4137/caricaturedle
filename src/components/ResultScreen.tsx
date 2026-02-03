@@ -37,12 +37,12 @@ function generateShareText(
     ? `${guessesUsed}/${maxGuesses}`
     : "X/" + maxGuesses;
 
-  return `Charicaturedle ${resultText}
+  return `Caricaturedle ${resultText}
 
 ${boxes}
 Score: ${score}/${GAME_CONFIG.maxPoints}
 
-Play at: charicaturedle.com`;
+Play at: caricaturedle.com`;
 }
 
 export function ResultScreen({
